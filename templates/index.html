@@ -3,12 +3,24 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 	<title>MARS and Dalle Images</title>
 </head>
 <body>
 	<h1>MARS and Dalle Images</h1>
-	<img src={{dalle_img_filepath}} alt={{revised_prompt}}>
+	<form method="POST">
+		<label>Date for Rover API</label>
+		<input name=req_date type="text" value={{date}}><br><br>
+		<input type="submit" value="Submit!"><br><br>
+		<label>Prompt for GPT</label>
+		<input name=req_prompt type="text" value={{gpt_prompt}}><br><br>
+		<input type="submit" value="Submit!"><br><br>
+	</form>
+	<div class="image-container">
 	<img src={{rover_img_filepath}}>
+	<img src={{dalle_img_filepath}} alt={{revised_prompt}}>
+	</div>
+
 
 </body>
 </html>

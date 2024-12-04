@@ -8,9 +8,8 @@ from PIL import Image
 with open('nasakey.txt', 'r') as nasa_file:
     nasa_key = nasa_file.read().strip()
 
-date = "2015-6-3"
-
-# Make a request to the NASA CME API
+date = "2016-6-3"
+# TO DO work out how to have the user input a date to update the rover pics on the website
 url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={nasa_key}"
 
 response = requests.get(url)
@@ -46,7 +45,8 @@ client = AzureOpenAI(
 )
 
 # generate an image using Dalle
-prompt = "A speculative tool to help me survive on mars, with no text"
+prompt = "A highly detailed and futuristic speculative tool designed for survival on Mars. The image should only feature the tool in a visually striking Martian landscape, with no text, no logos, and no visible markings or symbols. Focus on intricate, realistic design details."
+
 dalle_result = client.images.generate(
 	model = "dalle3", 
 	prompt = prompt,
@@ -88,5 +88,8 @@ with open(image_path, 'wb') as file:
 def get_dalle_filename():
 	return f"/{dalle_folder}/{dalle_filename}"
 
+# makes the alt text the revised prompt
 def get_prompt():
 	return revised_prompt
+
+# def get_date():
