@@ -8,4 +8,4 @@ def index():
 	dalle_file = get_dalle_filename()
 	prompt = get_prompt()
 	rover_file = get_rover_filename()
-	return render_template("index.html", dalle_img_filepath=dalle_file, prompt=revised_prompt, rover_img_filepath=rover_file)
+	return render_template("index.html", dalle_img_filepath=dalle_file, prompt=prompt, rover_img_filepath=rover_file)
