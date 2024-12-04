@@ -4,3 +4,5 @@ venv/
 nasakey.txt
 .cache-*
 __pycache__/
+Dalle Images/
+Rover Images/
