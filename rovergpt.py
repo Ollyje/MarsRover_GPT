@@ -8,9 +8,10 @@ from PIL import Image
 with open('nasakey.txt', 'r') as nasa_file:
     nasa_key = nasa_file.read().strip()
 
+
 def get_rover_img_url(rover_img): # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
 # TO DO - how can this varible become interactive?
-# date = "2016-6-3"
+date = "2016-6-3"
 # TO DO work out how to have the user input a date to update the rover pics on the website
 url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={nasa_key}"
 
@@ -20,7 +21,6 @@ data = response.json()
 
 rover_img = data["photos"][0]["img_src"]
 # print(rover_img)
-
 return rover_img
 
 rover_folder = 'static'
