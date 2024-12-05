@@ -8,7 +8,9 @@ from PIL import Image
 with open('nasakey.txt', 'r') as nasa_file:
     nasa_key = nasa_file.read().strip()
 
-date = "2016-6-3"
+def get_rover_img_url(rover_img): # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
+# TO DO - how can this varible become interactive?
+# date = "2016-6-3"
 # TO DO work out how to have the user input a date to update the rover pics on the website
 url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={nasa_key}"
 
@@ -18,6 +20,8 @@ data = response.json()
 
 rover_img = data["photos"][0]["img_src"]
 # print(rover_img)
+
+return rover_img
 
 rover_folder = 'static'
 rover_img_dir = os.path.join(os.curdir, rover_folder)
@@ -45,11 +49,11 @@ client = AzureOpenAI(
 )
 
 # generate an image using Dalle
-prompt = "A highly detailed and futuristic speculative tool designed for survival on Mars. The image should only feature the tool in a visually striking Martian landscape, with no text, no logos, and no visible markings or symbols. Focus on intricate, realistic design details."
+dalle_prompt = "A highly detailed and futuristic speculative tool designed for survival on Mars. The image should only feature the tool in a visually striking Martian landscape, with no text, no logos, and no visible markings or symbols. Focus on intricate, realistic design details."
 
 dalle_result = client.images.generate(
 	model = "dalle3", 
-	prompt = prompt,
+	prompt = dalle_prompt,
 	n=1
 	)
 
@@ -92,4 +96,11 @@ def get_dalle_filename():
 def get_prompt():
 	return revised_prompt
 
-# def get_date():
+
+# CHATGPT
+
+messages = [
+	{"role": "system", "content": "You're a computer vision model, analyse this Mars Rover image using this link {rover_img}"},
+	{"role": "user", "content": "Create a short piece of speculative fiction about speculative technologies you'd need to survive on Mars"}
+]
+
