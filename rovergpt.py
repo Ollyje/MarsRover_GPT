@@ -9,19 +9,19 @@ with open('nasakey.txt', 'r') as nasa_file:
     nasa_key = nasa_file.read().strip()
 
 
-def get_rover_img_url(rover_img): # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
-# TO DO - how can this varible become interactive?
-date = "2016-6-3"
-# TO DO work out how to have the user input a date to update the rover pics on the website
-url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={nasa_key}"
+def get_rover_img_url(rover_img ): # DATE IN FUNCTION # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
+	# TO DO - how can this varible become interactive?
+	date = "2016-6-3"
+	# TO DO work out how to have the user input a date to update the rover pics on the website
+	url = f"https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date={date}&api_key={nasa_key}"
 
-response = requests.get(url)
-data = response.json()
-# print(data)
+	response = requests.get(url)
+	data = response.json()
+	# print(data)
 
-rover_img = data["photos"][0]["img_src"]
-# print(rover_img)
-return rover_img
+	rover_img = data["photos"][0]["img_src"]
+	# print(rover_img)
+	return rover_img
 
 rover_folder = 'static'
 rover_img_dir = os.path.join(os.curdir, rover_folder)
@@ -100,7 +100,41 @@ def get_prompt():
 # CHATGPT
 
 messages = [
-	{"role": "system", "content": "You're a computer vision model, analyse this Mars Rover image using this link {rover_img}"},
-	{"role": "user", "content": "Create a short piece of speculative fiction about speculative technologies you'd need to survive on Mars"}
+	{"role": "user", "content": [
+	{"type": "text", "text": "Analyze the provided image captured by the Mars Rover. In no more than 1500 characters, describe the terrain, colors, textures, and notable features in detail. Then, based on the environmental conditions depicted in the image, write a short paragraph of speculative fiction about a tool or piece of equipment necessary for human survival on Mars. Include its purpose and how it is designed to adapt to the specific challenges shown in the image."},
+	{"type": "image_url", 
+	"image_url": f"{image_src}"}
+	]
+}
 ]
 
+response = client.chat.completions.create(
+	model = "gpt-4o",
+	messages = messages,
+	tools = functions,
+	# auto means chatgpt decides when to use external functions
+	tool_choice = "auto"
+	)
+
+functions = [
+	{
+		"type": "function", 
+		"function": {
+			"name": "get_img_url",
+			"description": "Gets the image url from the Mars Rover Api",
+			"parameters": {
+					# letting chatgpt know that it's geting key-value pairs
+				"type": "object",
+				"properties": {
+					"rover_date": {
+						"type": "string",
+						"description": "The date of the Mars Rover image i want to look up"
+					},
+
+				},
+				"required":["rover_date"]
+			}
+
+		}
+	}
+]
