@@ -23,6 +23,7 @@ def get_rover_img_url(rover_date): # DATE IN FUNCTION # TO DO - check this ufnci
 	print (rover_img_url)
 	bot_response = gpt_describe(rover_img_url)
 	print(bot_response)
+	# THE ISSUE IS BOT_RESPONSE
 	new_dalle_img = make_dalle_img(bot_response)
 	return new_dalle_img
 
