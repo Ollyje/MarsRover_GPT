@@ -9,7 +9,7 @@ with open('nasakey.txt', 'r') as nasa_file:
     nasa_key = nasa_file.read().strip()
 
 
-def get_rover_img_url(rover_img ): # DATE IN FUNCTION # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
+def get_rover_img_url(rover_date): # DATE IN FUNCTION # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
 	# TO DO - how can this varible become interactive?
 	date = "2016-6-3"
 	# TO DO work out how to have the user input a date to update the rover pics on the website
@@ -19,26 +19,27 @@ def get_rover_img_url(rover_img ): # DATE IN FUNCTION # TO DO - check this ufnci
 	data = response.json()
 	# print(data)
 
+
 	rover_img = data["photos"][0]["img_src"]
-	# print(rover_img)
 	return rover_img
 
 rover_folder = 'static'
 rover_img_dir = os.path.join(os.curdir, rover_folder)
-if not os.path.isdir(rover_img_dir):
-	os.mkdir(rover_img_dir)
 
-# would like to save every image using a timestamp
+if not os.path.isdir(rover_img_dir):  
+    os.mkdir(rover_img_dir)
+
+# Would like to save every image using a timestamp
 rover_filename = 'Rover_Image.png'
 rover_img_path = os.path.join(rover_img_dir, rover_filename)
 
 rover_gen_image = requests.get(rover_img).content
 
-with open(rover_img_path, 'wb') as file:
-	file.write(rover_gen_image)
+with open(rover_img_path, 'wb') as file:  
+    file.write(rover_gen_image)
 
 def get_rover_filename():
-	return f"/{rover_folder}/{rover_filename}"
+    return f"/{rover_folder}/{rover_filename}"  
 
 # DALLE
 
@@ -103,7 +104,7 @@ messages = [
 	{"role": "user", "content": [
 	{"type": "text", "text": "Analyze the provided image captured by the Mars Rover. In no more than 1500 characters, describe the terrain, colors, textures, and notable features in detail. Then, based on the environmental conditions depicted in the image, write a short paragraph of speculative fiction about a tool or piece of equipment necessary for human survival on Mars. Include its purpose and how it is designed to adapt to the specific challenges shown in the image."},
 	{"type": "image_url", 
-	"image_url": f"{image_src}"}
+	"image_url": f"{rover_img}"}
 	]
 }
 ]
@@ -138,3 +139,35 @@ functions = [
 		}
 	}
 ]
+
+# print(response.choices[0].message)
+response_message = response.choices[0].message 
+gpt_tools = response.choices[0].message.tool_calls
+
+if gpt_tools:
+	available_functions = {
+			"get_img_url": get_rover_img_url
+	}
+
+	messages.append(response_message)
+	for gpt_tool in gpt_tools:
+		function_name = gpt_tool.function.name
+		function_to_call = available_functions[function_name]
+		function_parameters = json.loads(gpt_tool.function.arguments)
+		function_response = function_to_call(function_parameters.get('rover_date'))
+		messages.append(
+			{
+				"tool_call_id": gpt_tool.id,
+				"role": "tool",
+				"name": function_name,
+				"content": function_response
+			}
+		)
+		second_response = client.chat.completions.create(
+			model = "gpt-4o",
+			messages=messages
+		)
+		print(second_response.choices[0].message.content)
+
+else:
+	print(response.choices[0].message.content)
