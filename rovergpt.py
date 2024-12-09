@@ -6,7 +6,7 @@ from PIL import Image
 
 # NASA ROVER 
 with open('nasakey.txt', 'r') as nasa_file:
-    nasa_key = nasa_file.read().strip()
+	nasa_key = nasa_file.read().strip()
 
 
 def get_rover_img_url(rover_date): # DATE IN FUNCTION # TO DO - check this ufnciton for getting the URL of the image, to then feed into gpt
@@ -17,12 +17,14 @@ def get_rover_img_url(rover_date): # DATE IN FUNCTION # TO DO - check this ufnci
 	response = requests.get(url)
 	data = response.json()
 	# print(data)
-
-
 	rover_img_url = data["photos"][0]["img_src"]
 	print (rover_img_url)
+	return rover_img_url
+
+def get_dalle_image(rover_img_url):
 	bot_response = gpt_describe(rover_img_url)
-	print(bot_response)
+	print (f"this is the bot response {bot_response}")
+	print("end of bot reponse")
 	# THE ISSUE IS BOT_RESPONSE
 	new_dalle_img = make_dalle_img(bot_response)
 	return new_dalle_img
@@ -61,10 +63,11 @@ dalle_image_dir = os.path.join(os.curdir, dalle_folder)
 if not os.path.isdir(dalle_image_dir):
 	os.mkdir(dalle_image_dir)
 
-def make_dalle_img(gpt_response): 
+def make_dalle_img(bot_response): 
 	# generate an image using Dalle
 	# my dalle prompt will be the GPT output
-	dalle_prompt = gpt_response
+	dalle_prompt = bot_response
+	print (f"this is the dalle prompt {dalle_prompt}")
 
 	dalle_result = client.images.generate(
 		model = "dalle3", 
@@ -90,7 +93,7 @@ def make_dalle_img(gpt_response):
 	with open(image_path, 'wb') as file:
 		file.write(dalle_gen_image)
 
-	return dalle_filename
+	return '/static/'+dalle_filename
 
 # this will have python open the image file - good for debugging and proof of concept
 # image = Image.open(image_path)
@@ -105,24 +108,61 @@ def get_dalle_filename():
 
 
 # CHATGPT
+# def gpt_describe(rover_img):
+# 	messages = [
+# 		{"role": "user", "content": [
+# 		{"type": "text", "text": "Analyze the provided image captured by the Mars Rover. In no more than 1500 characters, describe the terrain, colors, textures, and notable features in detail. Then, based on the environmental conditions depicted in the image, write a short paragraph of speculative fiction about a tool or piece of equipment necessary for human survival on Mars. Include its purpose and how it is designed to adapt to the specific challenges shown in the image."},
+# 		{"type": "image_url", 
+# 		# "image_url": "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01775/opgs/edr/fcam/FLB_555078469EDR_F0642790FHAZ00341M_.JPG"}
+# 		"image_url": f"{rover_img}"
+# 		}
+# 		]
+# 	}
+# 	]
+
 def gpt_describe(rover_img):
 	messages = [
-		{"role": "user", "content": [
-		{"type": "text", "text": "Analyze the provided image captured by the Mars Rover. In no more than 1500 characters, describe the terrain, colors, textures, and notable features in detail. Then, based on the environmental conditions depicted in the image, write a short paragraph of speculative fiction about a tool or piece of equipment necessary for human survival on Mars. Include its purpose and how it is designed to adapt to the specific challenges shown in the image."},
-		{"type": "image_url", 
-		"image_url": f"{rover_img}"}
-		]
-	}
+		{
+			"role": "system",
+			"content": """You are a detailed image analysis system designed to describe Mars Rover images. 
+			In no more than 500 characters provide a detailed description of the terrain, textures, and notable features. Additionally, create a futuristic speculative tool for human survival on Mars based on the image's conditions."""
+		},
+		{
+			"role": "user",
+			"content": [
+				{"type": "text", "text": "Analyze the provided image captured by the Mars Rover."},
+				{
+					"type": "image_url",
+					"image_url": {
+						"url": rover_img
+					}
+				}
+			]
+		}
 	]
 
+
+
+# def gpt_describe(rover_img):
+# 	messages = [
+# 		{
+# 			"role": "user",
+# 			"content": (
+# 				f"{rover_img}"
+
+# 			),
+# 		}
+# 	]
+
 	response = client.chat.completions.create(
-		model = "gpt-4o",
-		messages = messages,
-		tools = functions,
-		# auto means chatgpt decides when to use external functions
-		tool_choice = "auto"
-		)
+		model="gpt-4o",
+		messages=messages,
+		tools=functions,
+		# auto means ChatGPT decides when to use external functions
+		tool_choice="auto"
+	)
 	return response.choices[0].message.content
+
 
 functions = [
 	{
