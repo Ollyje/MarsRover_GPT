@@ -4,23 +4,33 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="static/css/style.css">
-	<title>MARS and Dalle Images</title>
+	<title>TERRAFORM TOOLKIT</title>
 </head>
 <body>
-	<h1>MARS and Dalle Images</h1>
+	<h1>TERRAFORM TOOLKIT</h1>
 	<form method="POST">
-		<label>Date for Rover API</label>
+		<label>Mission Date:</label>
 		<input name=req_date type="text" value={{date}}><br><br>
-		<input type="submit" value="Submit!"><br><br>
+		<input type="submit" value="Analyse"><br><br>
 		<!-- TO DO - I would like one input, which is the date, that creates a mars rover image, 
 		the link of that image is then fed into chatgpt, and it produces a piece of fiction, 
 		and then the revised prompt is used to prompt dalle to create a speculative design tool 
 		NEED TO REVISE MY INTERACTIVE ELEMENTS-->
 	</form>
-	<div class="image-container">
-	<img src={{rover_img_filepath}}>
-	<img src={{dalle_img_filepath}} alt={{revised_prompt}}>
-	</div>
+<div class="image-container">
+    <div class="image-block">
+        <h3>MARS CONDITIONS</h3>
+        <img src="{{rover_img_filepath}}" alt="Image Capture by the Mars Rover">
+    </div>
+    <div class="image-block">
+        <h3>SURVIVAL TOOL</h3>
+        <img src="{{dalle_img_filepath}}" alt="DALL·E Image created by analyzing the conditions captured by the Mars Rover">
+    </div>
+</div>
+
+<div class="image-container">
+    <p>{{gpt_output}}</p>
+</div>
 
 
 </body>

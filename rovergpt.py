@@ -103,8 +103,8 @@ def get_dalle_filename():
 	return f"/{dalle_folder}/{dalle_filename}"
 
 # makes the alt text the revised prompt
-# def get_prompt():
-	# return revised_prompt
+def get_prompt():
+	return revised_prompt
 
 
 # CHATGPT
@@ -124,13 +124,12 @@ def gpt_describe(rover_img):
 	messages = [
 		{
 			"role": "system",
-			"content": """You are a detailed image analysis system designed to describe Mars Rover images. 
-			In no more than 500 characters provide a detailed description of the terrain, textures, and notable features. Additionally, create a futuristic speculative tool for human survival on Mars based on the image's conditions."""
+			"content": "You are a detailed image analysis system for Mars Rover images. Provide a description of the terrain, textures, and notable features in no more than 500 characters. Based on the environmental conditions observed, design a futuristic speculative survival tool for humans on Mars. The tool should directly address challenges suggested by the conditions, terrain or atmosphere, describe it clearly without using bold text, and ensure that any image created does not include any text."
 		},
 		{
 			"role": "user",
 			"content": [
-				{"type": "text", "text": "Analyze the provided image captured by the Mars Rover."},
+				{"type": "text", "text": "Analyze the provided image captured by the Mars Rover. "},
 				{
 					"type": "image_url",
 					"image_url": {
