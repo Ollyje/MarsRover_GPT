@@ -6,6 +6,8 @@ nasakey.txt
 __pycache__/
 Dalle Images/
 Rover Images/
+static/Default_Dalle_Image.png
+static/Default_Rover_Image.png
 static/Dalle_Image.png
 static/Rover_Image.png
 rovergpt_messy.py
