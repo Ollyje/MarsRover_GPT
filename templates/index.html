@@ -12,10 +12,6 @@
 		<label>Mission Date:</label>
 		<input name=req_date type="text" value={{date}}><br><br>
 		<input type="submit" value="Analyse"><br><br>
-		<!-- TO DO - I would like one input, which is the date, that creates a mars rover image, 
-		the link of that image is then fed into chatgpt, and it produces a piece of fiction, 
-		and then the revised prompt is used to prompt dalle to create a speculative design tool 
-		NEED TO REVISE MY INTERACTIVE ELEMENTS-->
 	</form>
 <div>
 	<p>Welcome to the Terraform Toolkit, a cutting-edge platform for envisioning the future of human survival on Mars. This site invites you to explore speculative technologies tailored to withstand the planet's extreme conditions. Simply input a mission date, and the system will analyze Mars' environment based on captured imagery, generating an innovative survival solution designed for the challenges of tomorrow.</p>
@@ -34,7 +30,5 @@
 <div class="image-container">
     <p>{{gpt_output}}</p>
 </div>
-
-
 </body>
 </html>
