@@ -51,7 +51,7 @@ def get_dalle_image(rover_img_url):
 
 client = AzureOpenAI(
 	api_key = os.getenv("AZURE_KEY"),
-	api_version = "2023-12-01-preview",
+	api_version = "2024-10-21",
 	azure_endpoint = os.getenv("AZURE_ENDPOINT")
 )
 
