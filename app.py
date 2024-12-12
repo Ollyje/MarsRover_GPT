@@ -9,7 +9,7 @@ default_dalle_image = '/static/Default_Dalle_Image.png'
 
 @app.route('/')
 def index():
-	return render_template("index.html", date=default_date, rover_img_filepath=default_rover_image, dalle_img_filepath=default_dalle_image) # dalle_img_filepath=dalle_file, rover_img_filepath=rover_file)
+	return render_template("index.html", date=default_date, rover_img_filepath=default_rover_image, dalle_img_filepath=default_dalle_image)
 
 @app.route('/', methods=['POST'])
 def index_post():

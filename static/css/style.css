@@ -10,25 +10,35 @@ body {
 h1 {
     font-size: 2.5em;
     margin-top: 10px;
+    font-family: "Courier New", Courier, monospace;
     text-shadow: 0 0 10px orangered, 0 0 20px orangered;
 }
 
+p {
+    padding: 20px;
+    justify-content: justify;
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
+}
 form {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
 }
 
 label {
     font-size: 1em;
+    font-family: "Courier New", Courier, monospace;
 }
 
 input[type="text"] {
     width: 200px;
     padding: 8px;
     border: 1px solid orangered;
+    font-family: "Courier New", Courier, monospace;
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
     border-radius: 5px;
     background-color: black;
     color: orangered;
@@ -40,6 +50,7 @@ input[type="submit"] {
     background-color: orangered;
     color: black;
     font-family: "Courier New", Courier, monospace;
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
     border: none;
     border-radius: 5px;
     font-size: 1em;
@@ -79,6 +90,7 @@ img {
 .image-block h3 {
     font-size: 25px; 
     color: orangered; 
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
     text-align: center; 
 }
 
@@ -88,6 +100,7 @@ img {
     padding-left: 50px;
     padding-right: 50px;
     text-align: justify; 
+    text-shadow: 0 0 10px orangered, 0 0 20px orangered;
     line-height: 1.6; 
     font-size: 16px; 
     color: orangered; 

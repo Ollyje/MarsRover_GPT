@@ -65,12 +65,12 @@ def gpt_describe(rover_img):
 	messages = [
 		{
 			"role": "system",
-			"content": "You are a detailed image analysis system for Mars Rover images. Provide a description of the terrain, textures, and notable features in no more than 500 characters. Based on the environmental conditions observed, design one futuristic speculative survival tool. The tool should directly address challenges suggested by the atmosphere and conditions and be described clearly without using bold text."
+			"content": "You are a detailed image analysis system for Mars Rover images. Provide a description of the terrain, textures, and notable features in no more than 500 characters. Based on the environmental conditions observed design one futuristic speculative terraforming technology. The tool should directly address challenges suggested by the atmosphere and conditions and be shown clearly without using bold text."
 		},
 		{
 			"role": "user",
 			"content": [
-				{"type": "text", "text": "Analyze the provided image captured by the Mars Rover."},
+				{"type": "text", "text": "Analyze the provided image captured by the Mars Rover and based on the environmental conditions observed design one futuristic speculative terraforming technology. The tool should directly address challenges suggested by the atmosphere and conditions and be shown clearly without using bold text."},
 				{
 					"type": "image_url",
 					"image_url": {
